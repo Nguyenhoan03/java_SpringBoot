@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Thêm sản phẩm mới</title></head>
+<body>
+    <h2>Thêm sản phẩm mới</h2>
+    <form th:action="@{/create_product}" th:object="${product}" method="post">
+        Tên sản phẩm: <input type="text" th:field="*{name}">
+        hình ảnh: <input type="file" th:field="*{image}">
+        descript: <input type="text" th:field="*{descript}">
+        số lượng: <input type="number" th:field="*{quantity}">
+        <button type="submit">Lưu</button>
+    </form>
+    <a th:href="@{/}">Quay lại</a>
+</body>
+</html>
