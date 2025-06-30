@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import dto.ProductDto;
+
+import com.example.crud.dto.ProductDto;
 import com.example.crud.service.ProductService;
 
 @RestController
@@ -25,8 +26,8 @@ public class ProductController {
         return productService.getAll();
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ProductDto create(@RequestBody ProductDto dto) {
-        return productService.create(dto);
+        return null;
     }
 }

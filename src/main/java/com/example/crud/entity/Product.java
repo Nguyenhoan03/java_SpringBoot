@@ -1,108 +1,55 @@
+// Product.java
 package com.example.crud.entity;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.Data;
 
-import com.example.crud.entity.Category;
 @Entity
-
+@Data
+@Table(name = "products")
 public class Product {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String slug;
     private String description;
     private BigDecimal price;
+
+    @Column(name = "sale_price")
     private BigDecimal salePrice;
-    private float rating;
+
+    private Float rating;
     private String brand;
     private String thumbnail;
-    
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "category_id")
-//    private Category category;
 
-    public Long getId() {
-        return id;
-    }
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-	public String getName() {
-		return name;
-	}
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductImage> images;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductReview> reviews;
 
-	public String getSlug() {
-		return slug;
-	}
+    @Column(name = "created_at", insertable = false, updatable = false)
+    private Timestamp createdAt;
 
-	public void setSlug(String slug) {
-		this.slug = slug;
-	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public BigDecimal getPrice() {
-		return price;
-	}
-
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
-
-	public BigDecimal getSalePrice() {
-		return salePrice;
-	}
-
-	public void setSalePrice(BigDecimal salePrice) {
-		this.salePrice = salePrice;
-	}
-
-	public float getRating() {
-		return rating;
-	}
-
-	public void setRating(float rating) {
-		this.rating = rating;
-	}
-
-	public String getBrand() {
-		return brand;
-	}
-
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
-
-	public String getThumbnail() {
-		return thumbnail;
-	}
-
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
-	}
-	
-
-//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-//    private List<ProductImage> images;
-    
     
 }

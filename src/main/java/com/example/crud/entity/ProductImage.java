@@ -1,34 +1,30 @@
-// Category.java
+// ProductImage.java
 package com.example.crud.entity;
-
-import java.sql.Timestamp;
-import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "categories")
-public class Category {
+@Table(name = "product_images")
+public class ProductImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String name;
-    private String slug;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 
-    @Column(name = "created_at", insertable = false, updatable = false)
-    private Timestamp createdAt;
-
-    @OneToMany(mappedBy = "category")
-    private List<Product> products;
+    @Column(name = "image_url")
+    private String imageUrl;
 
 
     

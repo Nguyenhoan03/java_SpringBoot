@@ -1,54 +1,35 @@
 package com.example.crud.service.impl;
 
-import com.example.crud.entity.Product;
-import com.example.crud.entity.Category;
-import com.example.crud.repository.CategoryRepository;
-import com.example.crud.repository.ProductRepository;
-import com.example.crud.service.ProductService;
-import dto.ProductDto;
-import lombok.RequiredArgsConstructor;
-
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.crud.dto.ProductDto;
+import com.example.crud.entity.Category;
+import com.example.crud.entity.Product;
+import com.example.crud.mapper.ProductMapper;
+import com.example.crud.repository.CategoryRepository;
+import com.example.crud.repository.ProductRepository;
+import com.example.crud.service.ProductService;
+import lombok.RequiredArgsConstructor;
+
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
+	private final ProductRepository productRepo;
+	private final CategoryRepository categoryRepo;
+	private final ProductMapper productMapper;
 
-    private final ProductRepository productRepo;
-    
-    public ProductServiceImpl (ProductRepository productRepo) {
-       this.productRepo = productRepo;	
-    }
 
-    @Override
-    public List<ProductDto> getAll() {
-        List<Product> products = productRepo.findAll();
+	@Override
+	public List<ProductDto> getAll() {
+		List<Product> products = productRepo.findAll();
+		return productMapper.toDtoList(products);
+	}
 
-        return products.stream().map(product -> {
-            ProductDto dto = new ProductDto();
-            dto.setId(product.getId());
-            dto.setName(product.getName());
-            dto.setSlug(product.getSlug());
-            return dto;
-        }).toList();
-    }
+//	@Override
+//	public ProductDto create(ProductDto dto) {
+//		
+//	}
 
-    @Override
-    public ProductDto create(ProductDto dto) {
-        Product product = new Product();
-        product.setName(dto.getName());
-        product.setSlug(dto.getSlug());
-
-        Product savedProduct = productRepo.save(product);
-
-        ProductDto result = new ProductDto();
-        result.setId(savedProduct.getId());
-        result.setName(savedProduct.getName());
-        result.setSlug(savedProduct.getSlug());
-
-        return result;
-    }
 }
-
